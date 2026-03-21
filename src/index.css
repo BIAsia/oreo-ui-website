@@ -1,0 +1,46 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --page-bg: #F9F9F8;
+  --card-bg: #F9F9F8;
+  --card-border: #E4E4E4;
+  --badge-bg: #EEF1F0;
+  --text: #000000;
+  --text-muted: rgba(0, 0, 0, 0.4);
+  --text-sub: #A0A0A0;
+  --text-company: rgba(0, 0, 0, 0.45);
+  --font-serif: 'Averia Serif Libre', system-ui, sans-serif;
+  --font-source: 'Source Serif 4', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--page-bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  overflow-x: hidden;
+}
+
+button, input {
+  font-family: inherit;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

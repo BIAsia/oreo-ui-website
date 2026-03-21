@@ -1,0 +1,228 @@
+.page {
+  width: 1440px;
+  margin: 0 auto;
+  background-color: #F9F9F8;
+  overflow: hidden;
+}
+
+/* ── Hero ────────────────────────── */
+.hero {
+  position: relative;
+  width: 1440px;
+  height: 564px;
+  margin-top: 80px; /* navbar height */
+}
+
+.heroContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.logoWrap {
+  margin-top: 68px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 78px;
+  letter-spacing: -0.05em;
+  color: #000000;
+  white-space: pre-wrap;
+  text-align: center;
+  margin: 0;
+  margin-top: 5px;
+}
+
+.subtitle {
+  font-family: var(--font-serif);
+  font-size: 64px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 78px;
+  letter-spacing: -0.05em;
+  color: #A0A0A0;
+  text-align: center;
+  margin: 0;
+}
+
+.heroForm {
+  margin-top: 32px;
+}
+
+/* ── Stats ────────────────────────── */
+.stats {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 264px;
+  width: fit-content;
+  margin: 68px auto 0;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 200px;
+}
+
+.statValue {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 40px;
+  color: #000000;
+}
+
+.statLabel {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  opacity: 0.4;
+}
+
+/* ── Component Grid ──────────────── */
+.gridContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: #FFFFFF;
+  border-radius: 32px;
+  padding: 8px 0;
+  width: fit-content;
+  margin: 89px auto 0;
+}
+
+.gridRow {
+  display: flex;
+  gap: 9px;
+  padding: 0 8px;
+}
+
+.card {
+  width: 380px;
+  height: 330px;
+  background-color: #F9F9F8;
+  border: 1px solid #E4E4E4;
+  border-radius: 24px;
+  overflow: clip;
+  position: relative;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: box-shadow 0.25s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.cardImage {
+  position: absolute;
+}
+
+.fadeRight {
+  position: absolute;
+  top: -2px;
+  left: 229px;
+  width: 149px;
+  height: 331px;
+  background: linear-gradient(90deg, rgba(249,249,248,0) 0%, #F9F9F8 69%);
+  pointer-events: none;
+}
+
+.fadeRightAlt {
+  position: absolute;
+  top: -2px;
+  right: -1px;
+  width: 149px;
+  height: 331px;
+  background: linear-gradient(90deg, rgba(249,249,248,0) 0%, #F9F9F8 69%);
+  pointer-events: none;
+}
+
+.fadeBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 171px;
+  background: linear-gradient(180deg, rgba(249,249,248,0) 0%, #F9F9F8 50%);
+  pointer-events: none;
+}
+
+.cardLabel {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  translate: -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 3;
+}
+
+.cardName {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  letter-spacing: -0.03em;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.cardBadge {
+  display: inline-block;
+  padding: 4px 8px;
+  background-color: #EEF1F0;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: -0.03em;
+  color: #000000;
+  opacity: 0.5;
+  white-space: nowrap;
+}
+
+/* ── Bottom CTA ──────────────────── */
+.bottomSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+  padding-bottom: 120px;
+}
+
+.comingSoon {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 40px;
+  color: #000000;
+}
+
+.comingSoonSub {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  opacity: 0.4;
+  margin-top: 12px;
+  margin-bottom: 40px;
+}

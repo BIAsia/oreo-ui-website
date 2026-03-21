@@ -1,0 +1,129 @@
+.page {
+  width: 1440px;
+  margin: 0 auto;
+  background-color: #F9F9F8;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 152px; /* 80 navbar + 72 gap */
+  padding-bottom: 100px;
+}
+
+/* ── Hero ─────────────────────────── */
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.iconBlock {
+  width: 52px;
+  height: 52px;
+}
+
+.aboutIcon {
+  display: block;
+  width: 52px;
+  height: 52px;
+}
+
+.headline {
+  font-family: var(--font-serif);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 78px;
+  letter-spacing: -0.05em;
+  color: #000000;
+  text-align: center;
+  width: 732px;
+  margin: 0;
+}
+
+.subheadline {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+  letter-spacing: -0.05em;
+  color: #000000;
+  text-align: center;
+  width: 832px;
+  margin: 0;
+}
+
+/* ── Form ─────────────────────────── */
+.formWrap {
+  margin-top: 72px;
+}
+
+/* ── Body ─────────────────────────── */
+.body {
+  margin-top: 72px;
+  width: 818px;
+  font-family: var(--font-source);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 150%;
+  letter-spacing: -0.01em;
+  color: #000000;
+  white-space: pre-wrap;
+}
+
+/* ── Team ─────────────────────────── */
+.team {
+  display: flex;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.member {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.portrait {
+  width: 266px;
+  height: 266px;
+  background-color: #F2F1E8;
+  overflow: clip;
+  position: relative;
+}
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.memberName {
+  font-family: var(--font-source);
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: -0.01em;
+  color: #000000;
+  width: 266px;
+}
+
+.memberRole {
+  font-family: var(--font-source);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 150%;
+  letter-spacing: -0.01em;
+  color: #000000;
+  width: 266px;
+}
+
+.memberCompanies {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.01em;
+  color: rgba(0, 0, 0, 0.45);
+  width: 266px;
+}
