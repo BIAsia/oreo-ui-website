@@ -1,27 +1,50 @@
+const RESEND_BASE = 'https://api.resend.com'
+
+async function getOrCreateAudience(apiKey) {
+  const res = await fetch(`${RESEND_BASE}/audiences`, {
+    headers: { Authorization: `Bearer ${apiKey}` },
+  })
+  const { data } = await res.json()
+
+  if (data && data.length > 0) return data[0].id
+
+  const create = await fetch(`${RESEND_BASE}/audiences`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({ name: 'Oreo Design Subscribers' }),
+  })
+  const audience = await create.json()
+  return audience.id
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
   const { email } = req.body
-
   if (!email) {
     return res.status(400).json({ error: 'Email is required' })
   }
 
+  const apiKey = process.env.RESEND_API_KEY
+  if (!apiKey) {
+    return res.status(500).json({ error: 'API key not configured' })
+  }
+
   try {
-    const response = await fetch('https://api.resend.com/emails', {
+    const audienceId = await getOrCreateAudience(apiKey)
+
+    const response = await fetch(`${RESEND_BASE}/audiences/${audienceId}/contacts`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        Authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify({
-        from: 'Oreo Design <onboarding@resend.dev>',
-        to: email,
-        subject: 'Welcome to Oreo Design',
-        html: '<p>Thanks for signing up! We\'ll notify you when Oreo Design is ready.</p>',
-      }),
+      body: JSON.stringify({ email }),
     })
 
     if (!response.ok) {
@@ -29,9 +52,8 @@ export default async function handler(req, res) {
       return res.status(response.status).json({ error: error.message })
     }
 
-    const data = await response.json()
-    return res.status(200).json({ success: true, id: data.id })
-  } catch (err) {
-    return res.status(500).json({ error: 'Failed to send email' })
+    return res.status(200).json({ success: true })
+  } catch {
+    return res.status(500).json({ error: 'Failed to subscribe' })
   }
 }
