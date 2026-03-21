@@ -1,7 +1,9 @@
 .page {
-  width: 1440px;
+  max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
   background-color: #F9F9F8;
+  overflow: hidden;
 }
 
 .main {
@@ -39,7 +41,9 @@
   letter-spacing: -0.05em;
   color: #000000;
   text-align: center;
-  width: 732px;
+  max-width: 732px;
+  width: 100%;
+  padding: 0 24px;
   margin: 0;
 }
 
@@ -51,7 +55,9 @@
   letter-spacing: -0.05em;
   color: #000000;
   text-align: center;
-  width: 832px;
+  max-width: 832px;
+  width: 100%;
+  padding: 0 24px;
   margin: 0;
 }
 
@@ -63,7 +69,9 @@
 /* ── Body ─────────────────────────── */
 .body {
   margin-top: 72px;
-  width: 818px;
+  max-width: 818px;
+  width: 100%;
+  padding: 0 24px;
   font-family: var(--font-source);
   font-size: 24px;
   font-weight: 500;
@@ -126,4 +134,114 @@
   letter-spacing: -0.01em;
   color: rgba(0, 0, 0, 0.45);
   width: 266px;
+}
+
+/* ── Responsive ──────────────────── */
+@media (max-width: 1024px) {
+  .team {
+    gap: 24px;
+  }
+
+  .portrait {
+    width: 220px;
+    height: 220px;
+  }
+
+  .memberName,
+  .memberRole,
+  .memberCompanies {
+    width: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding-top: 120px;
+    padding-bottom: 60px;
+  }
+
+  .headline {
+    font-size: 40px;
+    line-height: 50px;
+  }
+
+  .subheadline {
+    font-size: 22px;
+    line-height: 30px;
+  }
+
+  .formWrap {
+    margin-top: 48px;
+    padding: 0 20px;
+    width: 100%;
+  }
+
+  .body {
+    margin-top: 48px;
+    font-size: 18px;
+    padding: 0 20px;
+  }
+
+  .team {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 32px;
+    padding: 0 20px;
+  }
+
+  .portrait {
+    width: 200px;
+    height: 200px;
+  }
+
+  .memberName {
+    width: 200px;
+    font-size: 26px;
+  }
+
+  .memberRole {
+    width: 200px;
+    font-size: 18px;
+  }
+
+  .memberCompanies {
+    width: 200px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding-top: 100px;
+  }
+
+  .headline {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .subheadline {
+    font-size: 18px;
+    line-height: 26px;
+  }
+
+  .body {
+    font-size: 16px;
+  }
+
+  .team {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .portrait {
+    width: 240px;
+    height: 240px;
+  }
+
+  .memberName,
+  .memberRole,
+  .memberCompanies {
+    width: 240px;
+  }
 }

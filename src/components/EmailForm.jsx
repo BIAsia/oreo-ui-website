@@ -1,68 +1,53 @@
 import { useState } from 'react'
-
-const inputStyle = {
-  width: 300,
-  padding: '12px',
-  backgroundColor: '#FFFFFF',
-  border: '0.5px solid rgba(0,0,0,0.1)',
-  borderRadius: 12,
-  boxShadow: '0px 0px 1px rgba(0,0,0,0.16), 0px 4px 12px rgba(0,0,0,0.04)',
-  fontFamily: '"Geist Mono", system-ui, sans-serif',
-  fontSize: 14,
-  fontWeight: 500,
-  lineHeight: '18px',
-  color: '#000000',
-  outline: 'none',
-}
-
-const btnStyle = {
-  padding: '12px 32px',
-  backgroundColor: '#000000',
-  border: '0.5px solid rgba(0,0,0,0.1)',
-  borderRadius: 12,
-  boxShadow: '0px 0px 1px rgba(0,0,0,0.16), 0px 4px 12px rgba(0,0,0,0.04)',
-  fontFamily: '"Geist Mono", system-ui, sans-serif',
-  fontSize: 14,
-  fontWeight: 500,
-  lineHeight: '18px',
-  color: '#FFFFFF',
-  cursor: 'pointer',
-  whiteSpace: 'nowrap',
-  transition: 'opacity 0.15s',
-}
+import styles from './EmailForm.module.css'
 
 export default function EmailForm() {
   const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState('idle') // idle | sending | sent | error
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!email) return
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 2500)
-    setEmail('')
+    if (!email || status === 'sending') return
+
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!res.ok) throw new Error()
+
+      setStatus('sent')
+      setEmail('')
+      setTimeout(() => setStatus('idle'), 2500)
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 2500)
+    }
+  }
+
+  const btnText = {
+    idle: 'Get Access',
+    sending: 'Sending...',
+    sent: 'Sent!',
+    error: 'Failed',
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{ display: 'flex', alignItems: 'start', gap: 16 }}
-    >
+    <form onSubmit={handleSubmit} className={styles.form}>
       <input
         type="email"
         placeholder="Your email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
-        style={inputStyle}
+        disabled={status === 'sending'}
+        className={styles.input}
       />
-      <button
-        type="submit"
-        style={btnStyle}
-        onMouseEnter={(e) => e.target.style.opacity = 0.85}
-        onMouseLeave={(e) => e.target.style.opacity = 1}
-      >
-        {submitted ? 'Sent!' : 'Get Access'}
+      <button type="submit" disabled={status === 'sending'} className={styles.btn}>
+        {btnText[status]}
       </button>
     </form>
   )
