@@ -7,10 +7,11 @@
   overflow: hidden;
 }
 
+/* ── Hero ───────────────────────── */
 .hero {
   position: relative;
   width: 100%;
-  height: 480px;
+  height: 500px;
   margin-top: 80px;
 }
 
@@ -21,14 +22,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
+  gap: 32px;
   z-index: 2;
 }
 
 .titleGroup {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
 }
 
 .title {
@@ -64,61 +65,39 @@
   padding: 8px;
   width: calc(100% - 48px);
   max-width: 1174px;
-  margin: 0 auto;
+  margin: 64px auto 0;
 }
 
-.bigCard {
+.blockCard {
   width: 100%;
-  max-width: 1158px;
-  aspect-ratio: 1158 / 661;
   background-color: #F9F9F8;
   border: 1px solid #E4E4E4;
   border-radius: 24px;
   overflow: clip;
   position: relative;
+  aspect-ratio: 1158 / 700;
 }
 
-.bgImg {
+.cardImage {
   position: absolute;
+  inset: 0;
   background-size: cover;
   background-position: center;
 }
 
-.smallRow {
-  display: flex;
-  gap: 9px;
-}
-
-.smallCard {
-  flex: 1;
-  min-width: 0;
-  height: 330px;
-  background-color: #F9F9F8;
-  border: 1px solid #E4E4E4;
-  border-radius: 24px;
-  overflow: clip;
-  position: relative;
-  cursor: pointer;
-  transition: box-shadow 0.25s;
-}
-
-.smallCard:hover {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-}
-
-.fadeRight {
+.fadeBottom {
   position: absolute;
-  top: -2px;
-  left: 229px;
-  width: 149px;
-  height: 331px;
-  background: linear-gradient(90deg, rgba(249,249,248,0) 0%, #F9F9F8 69%);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  background: linear-gradient(to top, #F9F9F8 0%, rgba(249, 249, 248, 0) 100%);
   pointer-events: none;
 }
 
 .cardLabel {
   position: absolute;
-  bottom: 25px;
+  bottom: 31px;
   left: 50%;
   translate: -50%;
   display: flex;
@@ -152,21 +131,55 @@
   opacity: 0.5;
 }
 
+/* ── Bottom CTA ─────────────────── */
+.bottomSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 54px;
+  padding: 120px 0;
+  width: 100%;
+}
+
+.comingSoon {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 40px;
+  color: #000000;
+  text-align: center;
+}
+
+.comingSoonSub {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 20px;
+  color: #000000;
+  opacity: 0.4;
+  text-align: center;
+  margin-top: -42px;
+}
+
 /* ── Responsive ──────────────────── */
 @media (max-width: 768px) {
   .hero {
-    height: 360px;
+    height: 400px;
     margin-top: 60px;
   }
 
+  .heroContent {
+    gap: 24px;
+    padding: 0 20px;
+  }
+
   .title {
-    font-size: 40px;
-    line-height: 50px;
+    font-size: 36px;
+    line-height: 44px;
   }
 
   .subtitle {
-    font-size: 40px;
-    line-height: 50px;
+    font-size: 36px;
+    line-height: 44px;
   }
 
   .cardContainer {
@@ -176,40 +189,42 @@
     gap: 6px;
   }
 
-  .bigCard {
+  .blockCard {
     border-radius: 16px;
+    aspect-ratio: 1158 / 800;
   }
 
-  .smallRow {
-    flex-wrap: wrap;
-    gap: 6px;
+  .bottomSection {
+    padding: 80px 20px;
+    gap: 36px;
   }
 
-  .smallCard {
-    flex: none;
-    width: calc(50% - 3px);
-    height: 240px;
-    border-radius: 16px;
+  .comingSoon {
+    font-size: 24px;
+    line-height: 32px;
+  }
+
+  .comingSoonSub {
+    margin-top: -24px;
   }
 }
 
 @media (max-width: 480px) {
   .hero {
-    height: 300px;
+    height: 340px;
   }
 
   .title {
-    font-size: 32px;
-    line-height: 40px;
+    font-size: 28px;
+    line-height: 36px;
   }
 
   .subtitle {
-    font-size: 32px;
-    line-height: 40px;
+    font-size: 28px;
+    line-height: 36px;
   }
 
-  .smallCard {
-    width: 100%;
-    height: 220px;
+  .blockCard {
+    aspect-ratio: 1158 / 900;
   }
 }

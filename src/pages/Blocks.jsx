@@ -2,23 +2,27 @@ import { Dithering } from '@paper-design/shaders-react'
 import Navbar from '../components/Navbar'
 import OreoIcon from '../components/OreoIcon'
 import EmailForm from '../components/EmailForm'
+import FadeIn from '../components/FadeIn'
 import styles from './Blocks.module.css'
 
-const smallCards = [
+const blockCards = [
   {
-    name: 'Prompt Composer', instances: '21 instances',
-    image: '/images/prompt-composer.png',
-    imgStyle: { width: 792, height: 164, left: 24, top: 58 },
+    name: 'Landing Page',
+    badge: '3 styles \u00b7 6 variants',
+    image: '/images/block-landing-page.png',
+    lightLabel: true,
   },
   {
-    name: 'Attachment Bar', instances: '60 instances',
-    image: '/images/attachment-bar.png',
-    imgStyle: { width: 434, height: 176, left: 56, top: 56 },
+    name: 'Application',
+    badge: '10+ Scenario',
+    image: '/images/block-application.png',
+    lightLabel: false,
   },
   {
-    name: 'Config Menu', instances: '11 instances',
-    image: '/images/config-menu.png',
-    imgStyle: { width: 333, height: 304, left: 22, top: 34 },
+    name: 'Canvas',
+    badge: '3 styles',
+    image: '/images/block-canvas.png',
+    lightLabel: false,
   },
 ]
 
@@ -42,7 +46,7 @@ export default function Blocks() {
         <div className={styles.heroContent}>
           <OreoIcon size={48} />
           <div className={styles.titleGroup}>
-            <h1 className={styles.title}>120+ Bloks for Agents</h1>
+            <h1 className={styles.title}>20+ Blocks for Agents</h1>
             <p className={styles.subtitle}>Coming soon</p>
           </div>
           <EmailForm />
@@ -50,63 +54,38 @@ export default function Blocks() {
       </div>
 
       {/* Cards */}
-      <div className={styles.cardContainer}>
-        {/* Big card */}
-        <div className={styles.bigCard}>
-          <div
-            className={styles.bgImg}
-            style={{
-              backgroundImage: 'url(/images/landing-page-2.png)',
-              width: 720, height: 463, left: -142, top: -133,
-              borderRadius: 24,
-            }}
-          />
-          <div
-            className={styles.bgImg}
-            style={{
-              backgroundImage: 'url(/images/landing-page-3.png)',
-              width: 720, height: 463, left: 139, top: 82,
-              borderRadius: 24,
-            }}
-          />
-          <div
-            className={styles.bgImg}
-            style={{
-              backgroundImage: 'url(/images/landing-page-1.png)',
-              width: 720, height: 463,
-              left: '50%', top: 71,
-              translate: '-50%',
-              borderRadius: 24,
-            }}
-          />
-          <div className={styles.cardLabel}>
-            <span className={styles.cardName}>Landing Page</span>
-            <span className={styles.cardBadge}>3 styles</span>
-          </div>
-        </div>
-
-        {/* Small cards row */}
-        <div className={styles.smallRow}>
-          {smallCards.map((card) => (
-            <div key={card.name} className={styles.smallCard}>
-              <div
-                className={styles.bgImg}
-                style={{
-                  backgroundImage: `url(${card.image})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  ...card.imgStyle,
-                }}
-              />
-              <div className={styles.fadeRight} />
-              <div className={styles.cardLabel}>
-                <span className={styles.cardName}>{card.name}</span>
-                <span className={styles.cardBadge}>{card.instances}</span>
-              </div>
+      <FadeIn className={styles.cardContainer}>
+        {blockCards.map((card) => (
+          <div key={card.name} className={styles.blockCard}>
+            <div
+              className={styles.cardImage}
+              style={{ backgroundImage: `url(${card.image})` }}
+            />
+            <div className={styles.fadeBottom} />
+            <div className={styles.cardLabel}>
+              <span
+                className={styles.cardName}
+                style={card.lightLabel ? { color: '#FFFFFF' } : undefined}
+              >
+                {card.name}
+              </span>
+              <span
+                className={styles.cardBadge}
+                style={card.lightLabel ? { color: '#315038' } : undefined}
+              >
+                {card.badge}
+              </span>
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        ))}
+      </FadeIn>
+
+      {/* Bottom CTA */}
+      <FadeIn className={styles.bottomSection}>
+        <span className={styles.comingSoon}>Coming Soon</span>
+        <span className={styles.comingSoonSub}>Be the first to build with Oreo UI.</span>
+        <EmailForm />
+      </FadeIn>
     </div>
   )
 }
