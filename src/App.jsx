@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import Blocks from './pages/Blocks'
 import Icons from './pages/Icons'
+import Illustrations from './pages/Illustrations'
 import ComingSoon from './pages/ComingSoon'
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
         <Route path="/blocks" element={<Blocks />} />
         <Route path="/icons" element={<Icons />} />
         <Route path="/components" element={<ComingSoon title="Components for Agents" />} />
-        <Route path="/illustrations" element={<ComingSoon title="Illustrations for Agents" />} />
+        <Route path="/illustrations" element={<Illustrations />} />
         <Route path="/design-lab" element={<ComingSoon title="Design Lab" />} />
       </Routes>
     </BrowserRouter>

@@ -2,6 +2,7 @@ import { Dithering } from '@paper-design/shaders-react'
 import Navbar from '../components/Navbar'
 import OreoIcon from '../components/OreoIcon'
 import EmailForm from '../components/EmailForm'
+import FadeIn from '../components/FadeIn'
 import styles from './Icons.module.css'
 
 export default function Icons() {
@@ -24,7 +25,7 @@ export default function Icons() {
         <div className={styles.heroContent}>
           <OreoIcon size={48} />
           <div className={styles.titleGroup}>
-            <h1 className={styles.title}>1700 Icons for Agents</h1>
+            <h1 className={styles.title}>1700+ Icons for Agents</h1>
             <p className={styles.subtitle}>Coming soon</p>
           </div>
           <EmailForm />
@@ -32,7 +33,7 @@ export default function Icons() {
       </div>
 
       {/* Card */}
-      <div className={styles.cardContainer}>
+      <FadeIn className={styles.cardContainer}>
         <div className={styles.bigCard}>
           <div
             className={styles.bgImg}
@@ -42,14 +43,21 @@ export default function Icons() {
               left: -73, top: -56,
             }}
           />
-          {/* Fade bottom */}
+          <div className={styles.fadeRight} />
           <div className={styles.fadeBottom} />
           <div className={styles.cardLabel}>
             <span className={styles.cardName}>Icons</span>
             <span className={styles.cardBadge}>1700+</span>
           </div>
         </div>
-      </div>
+      </FadeIn>
+
+      {/* Bottom CTA */}
+      <FadeIn className={styles.bottomSection}>
+        <span className={styles.comingSoon}>Coming Soon</span>
+        <span className={styles.comingSoonSub}>Be the first to build with Oreo UI.</span>
+        <EmailForm />
+      </FadeIn>
     </div>
   )
 }

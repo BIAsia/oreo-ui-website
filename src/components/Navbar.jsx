@@ -6,7 +6,6 @@ const navLinks = [
   { label: 'Blocks', path: '/blocks' },
   { label: 'Illustrations', path: '/illustrations' },
   { label: 'Icons', path: '/icons' },
-  { label: 'Design Lab', path: '/design-lab' },
   { label: 'About', path: '/about' },
 ]
 

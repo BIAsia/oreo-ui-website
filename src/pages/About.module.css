@@ -85,13 +85,13 @@
 .team {
   display: flex;
   gap: 32px;
-  margin-top: 24px;
+  margin-top: 64px;
 }
 
 .member {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
 }
 
 .portrait {
@@ -109,7 +109,7 @@
 
 .memberName {
   font-family: var(--font-source);
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 600;
   line-height: 150%;
   letter-spacing: -0.01em;
@@ -119,7 +119,7 @@
 
 .memberRole {
   font-family: var(--font-source);
-  font-size: 24px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 150%;
   letter-spacing: -0.01em;
@@ -129,11 +129,29 @@
 
 .memberCompanies {
   font-family: var(--font-sans);
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 400;
   line-height: 150%;
   letter-spacing: -0.01em;
   color: rgba(0, 0, 0, 0.45);
   width: 266px;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 12px;
+}
+
+.socialIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  transition: opacity 0.15s;
+}
+
+.socialIcon:hover {
+  opacity: 0.6;
 }
 
 /* ── Responsive ──────────────────── */
@@ -151,6 +169,10 @@
   .memberRole,
   .memberCompanies {
     width: 220px;
+  }
+
+  .memberName {
+    font-size: 22px;
   }
 }
 
@@ -196,17 +218,17 @@
 
   .memberName {
     width: 200px;
-    font-size: 26px;
+    font-size: 20px;
   }
 
   .memberRole {
     width: 200px;
-    font-size: 18px;
+    font-size: 15px;
   }
 
   .memberCompanies {
     width: 200px;
-    font-size: 14px;
+    font-size: 13px;
   }
 }
 

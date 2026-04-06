@@ -55,20 +55,32 @@
   margin: 0;
 }
 
-/* ── Card ───────────────────────── */
-.cardContainer {
-  background-color: #FFFFFF;
-  border-radius: 32px;
-  padding: 8px;
+/* ── Grid ───────────────────────── */
+.gridWrapper {
+  position: relative;
   width: calc(100% - 48px);
   max-width: 1174px;
   margin: 64px auto 0;
 }
 
-.bigCard {
-  width: 100%;
-  max-width: 1158px;
-  aspect-ratio: 1158 / 495;
+.gridContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  background-color: #FFFFFF;
+  border-radius: 32px;
+  padding: 8px;
+}
+
+.gridRow {
+  display: flex;
+  gap: 9px;
+}
+
+.card {
+  flex: 1;
+  min-width: 0;
+  height: 330px;
   background-color: #F9F9F8;
   border: 1px solid #E4E4E4;
   border-radius: 24px;
@@ -76,23 +88,49 @@
   position: relative;
 }
 
-.bgImg {
+.cardImg {
   position: absolute;
   background-size: cover;
   background-position: center;
 }
 
-.fadeBottom {
+/* Half-split card (two stacked sub-cards) */
+.halfTop,
+.halfBottom {
+  background-color: #F9F9F8;
+  border: 1px solid #E4E4E4;
+  border-radius: 24px;
+  overflow: clip;
+  position: relative;
+  height: calc(50% - 4.5px);
+}
+
+.halfTop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.halfBottom {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 200px;
-  background: linear-gradient(180deg, rgba(249, 249, 248, 0) 0%, #F9F9F8 50%);
+}
+
+/* Per-card fade effects */
+.cardFadeBottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  background: linear-gradient(to top, #F9F9F8 0%, rgba(249, 249, 248, 0) 100%);
   pointer-events: none;
 }
 
-.fadeRight {
+.cardFadeRight {
   position: absolute;
   top: 0;
   right: 0;
@@ -102,39 +140,16 @@
   pointer-events: none;
 }
 
-.cardLabel {
+/* Fade overlay on last row */
+.gridFadeOverlay {
   position: absolute;
-  bottom: 31px;
-  left: 50%;
-  translate: -50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  z-index: 3;
-}
-
-.cardName {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 18px;
-  letter-spacing: -0.03em;
-  color: #000000;
-}
-
-.cardBadge {
-  display: inline-block;
-  padding: 4px 8px;
-  background-color: #EEF1F0;
-  border-radius: 999px;
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 16px;
-  letter-spacing: -0.03em;
-  color: #000000;
-  opacity: 0.5;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 340px;
+  background: linear-gradient(to top, #F9F9F8 10%, rgba(249, 249, 248, 0) 100%);
+  pointer-events: none;
+  border-radius: 0 0 32px 32px;
 }
 
 /* ── Bottom CTA ─────────────────── */
@@ -188,14 +203,34 @@
     line-height: 44px;
   }
 
-  .cardContainer {
+  .gridWrapper {
     width: calc(100% - 24px);
-    border-radius: 16px;
-    padding: 6px;
+    margin-top: 40px;
   }
 
-  .bigCard {
+  .gridContainer {
     border-radius: 16px;
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .gridRow {
+    gap: 6px;
+  }
+
+  .card {
+    height: 220px;
+    border-radius: 16px;
+  }
+
+  .halfTop,
+  .halfBottom {
+    border-radius: 16px;
+  }
+
+  .gridFadeOverlay {
+    height: 230px;
+    border-radius: 0 0 16px 16px;
   }
 
   .bottomSection {
@@ -226,5 +261,9 @@
   .subtitle {
     font-size: 28px;
     line-height: 36px;
+  }
+
+  .card {
+    height: 180px;
   }
 }
