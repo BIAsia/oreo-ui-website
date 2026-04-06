@@ -95,6 +95,20 @@
 }
 
 /* Half-split card (two stacked sub-cards) */
+.cardHalf {
+  flex: 1;
+  min-width: 0;
+  height: 330px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  overflow: visible;
+  position: relative;
+}
+
 .halfTop,
 .halfBottom {
   background-color: #F9F9F8;
@@ -102,21 +116,7 @@
   border-radius: 24px;
   overflow: clip;
   position: relative;
-  height: calc(50% - 4.5px);
-}
-
-.halfTop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-}
-
-.halfBottom {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  flex: 1;
 }
 
 /* Per-card fade effects */

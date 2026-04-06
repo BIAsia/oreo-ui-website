@@ -94,7 +94,7 @@ const illustrationCards = [
 function IllustCard({ card }) {
   if (card.halfSplit) {
     return (
-      <div className={styles.card}>
+      <div className={styles.cardHalf}>
         <div className={styles.halfTop}>
           <div
             className={styles.cardImg}
