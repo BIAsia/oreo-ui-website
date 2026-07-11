@@ -11,7 +11,7 @@ const team = [
     role: 'Product Designer ',
     companies: 'TapNow, TikTok, frog',
     image: '/images/nicole.png',
-    shaderStyle: { width: 409, height: 409, left: -72, top: -72 },
+    shaderStyle: { width: 409, height: 409, left: -72, top: -47 },
     radius: 1.25,
     size: 0.5,
     social: {
@@ -24,7 +24,7 @@ const team = [
     role: 'Creative Designer',
     companies: 'Willow, TikTok, Tencent, Meta',
     image: '/images/yiqi.png',
-    shaderStyle: { width: 357, height: 357, left: -46, top: -36 },
+    shaderStyle: { width: 357, height: 357, left: -46, top: -16 },
     radius: 1.25,
     size: 0.5,
     social: {
@@ -33,9 +33,9 @@ const team = [
     },
   },
   {
-    name: 'Mona the Cat',
+    name: 'Mona',
     role: 'Design Engineer',
-    companies: 'Just a cat… or is it? 🐾',
+    companies: 'Offloop, TikTok, Tencent',
     image: '/images/mona.png',
     shaderStyle: { width: 340, height: 340, left: -37, top: -10 },
     radius: 1.25,

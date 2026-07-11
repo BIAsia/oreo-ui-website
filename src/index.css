@@ -13,8 +13,8 @@
   --text-muted: rgba(0, 0, 0, 0.4);
   --text-sub: #A0A0A0;
   --text-company: rgba(0, 0, 0, 0.45);
-  --font-serif: 'Averia Serif Libre', Georgia, 'Times New Roman', serif;
-  --font-source: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
+  --font-serif: 'Space Grotesk Variable', system-ui, -apple-system, sans-serif;
+  --font-source: 'Inter Variable', system-ui, -apple-system, sans-serif;
   --font-sans: 'Inter Variable', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', monospace;
 }

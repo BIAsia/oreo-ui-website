@@ -35,9 +35,9 @@
 .title {
   font-family: var(--font-serif);
   font-size: 64px;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 78px;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.03em;
   color: #000000;
   text-align: center;
   margin: 0;
@@ -47,9 +47,8 @@
 .subtitle {
   font-family: var(--font-serif);
   font-size: 64px;
-  font-style: italic;
   line-height: 78px;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.03em;
   color: #A0A0A0;
   text-align: center;
   width: 100%;
