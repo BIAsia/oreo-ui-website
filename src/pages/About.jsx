@@ -37,9 +37,9 @@ const team = [
     role: 'Design Engineer',
     companies: 'Just a cat… or is it? 🐾',
     image: '/images/mona.png',
-    shaderStyle: { width: 359, height: 359, left: -100, top: -99 },
-    radius: 1,
-    size: 0.01,
+    shaderStyle: { width: 340, height: 340, left: -37, top: -10 },
+    radius: 1.25,
+    size: 0.5,
     social: {
       x: 'https://x.com/mona_biasia',
     },

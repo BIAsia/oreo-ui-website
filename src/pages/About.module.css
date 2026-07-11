@@ -25,6 +25,7 @@
 .iconBlock {
   width: 52px;
   height: 52px;
+  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
 .aboutIcon {
@@ -45,6 +46,7 @@
   width: 100%;
   padding: 0 24px;
   margin: 0;
+  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
 .subheadline {
@@ -59,11 +61,13 @@
   width: 100%;
   padding: 0 24px;
   margin: 0;
+  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
 }
 
 /* ── Form ─────────────────────────── */
 .formWrap {
   margin-top: 72px;
+  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
 }
 
 /* ── Body ─────────────────────────── */

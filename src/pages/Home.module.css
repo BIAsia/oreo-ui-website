@@ -23,6 +23,17 @@
   z-index: 2;
 }
 
+.heroShader {
+  position: absolute;
+  inset: 0;
+  animation: shader-fade 1.6s ease-out both;
+}
+
+@keyframes shader-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .logoWrap {
   margin-top: 68px;
   width: 48px;
@@ -30,6 +41,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
 }
 
 .title {
@@ -43,6 +55,7 @@
   text-align: center;
   margin: 0;
   margin-top: 5px;
+  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 }
 
 .subtitle {
@@ -55,11 +68,13 @@
   color: #A0A0A0;
   text-align: center;
   margin: 0;
+  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
 }
 
 .heroForm {
   margin-top: 32px;
   padding: 0 20px;
+  animation: rise-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
 }
 
 /* ── Stats ────────────────────────── */
