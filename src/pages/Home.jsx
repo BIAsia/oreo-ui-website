@@ -78,16 +78,18 @@ export default function Home() {
 
       {/* Hero with Dithering shader */}
       <div className={styles.hero}>
-        <Dithering
-          speed={1}
-          shape="swirl"
-          type="8x8"
-          size={5.8}
-          scale={2.63}
-          colorBack="#00000000"
-          colorFront="#E2E2E2"
-          style={{ width: '100%', height: '100%' }}
-        />
+        <div className={styles.heroShader}>
+          <Dithering
+            speed={1}
+            shape="swirl"
+            type="8x8"
+            size={5.8}
+            scale={2.63}
+            colorBack="#00000000"
+            colorFront="#E2E2E2"
+            style={{ width: '100%', height: '100%' }}
+          />
+        </div>
         <div className={styles.heroContent}>
           <div className={styles.logoWrap}>
             <OreoIcon size={48} />

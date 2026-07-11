@@ -1,12 +1,20 @@
 import { useRef, useEffect, useState } from 'react'
 
-export default function FadeIn({ children, delay = 0, className = '' }) {
+const reducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+export default function FadeIn({ children, delay = 0, y = 28, className = '' }) {
   const ref = useRef(null)
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el) return
+    if (reducedMotion()) {
+      setVisible(true)
+      return
+    }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -14,7 +22,7 @@ export default function FadeIn({ children, delay = 0, className = '' }) {
           observer.unobserve(el)
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.1, rootMargin: '0px 0px -10% 0px' }
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -26,8 +34,14 @@ export default function FadeIn({ children, delay = 0, className = '' }) {
       className={className}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(18px)',
-        transition: `opacity 0.6s ease ${delay}s, transform 0.6s ease ${delay}s`,
+        transform: visible ? 'none' : `translateY(${y}px)`,
+        filter: visible ? 'none' : 'blur(5px)',
+        transition: [
+          `opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
+          `transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`,
+          `filter 0.6s ease-out ${delay}s`,
+        ].join(', '),
+        willChange: visible ? 'auto' : 'opacity, transform, filter',
       }}
     >
       {children}
