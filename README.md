@@ -45,3 +45,10 @@ anyone already on the list, and creates the rest. It is safe to re-run.
 Pass `--file emails.csv` to import from an exported list instead of the API,
 `--subject ""` to include every sent email, or `--include-bounced` to import
 bounced addresses too.
+
+No local Node setup? The same script runs as a manual GitHub Actions job:
+**Actions → Backfill Resend contacts → Run workflow**, with `dry_run` checked
+by default. It needs a `RESEND_API_KEY` repository secret (Settings → Secrets
+and variables → Actions), plus `RESEND_AUDIENCE_ID` if your contacts are
+scoped to an audience. The workflow only appears in the Actions tab once it is
+on the default branch.

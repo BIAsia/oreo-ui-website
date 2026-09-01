@@ -1,0 +1,48 @@
+name: Backfill Resend contacts
+
+# Manual, one-off job: imports past welcome-email recipients into the Resend
+# contact list. Needs a RESEND_API_KEY repository secret (and
+# RESEND_AUDIENCE_ID if contacts are scoped to an audience).
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview only — do not create any contacts'
+        type: boolean
+        default: true
+      subject:
+        description: 'Only import recipients of emails whose subject contains this text (leave empty for every sent email)'
+        type: string
+        default: 'Welcome to Oreo Design'
+      include_bounced:
+        description: 'Also import addresses that bounced or complained'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run backfill
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          SUBJECT: ${{ inputs.subject }}
+          INCLUDE_BOUNCED: ${{ inputs.include_bounced }}
+        run: |
+          if [ -z "$RESEND_API_KEY" ]; then
+            echo "::error::RESEND_API_KEY secret is not set on this repository."
+            exit 1
+          fi
+          args=(--subject "$SUBJECT")
+          if [ "$DRY_RUN" = "true" ]; then args+=(--dry-run); fi
+          if [ "$INCLUDE_BOUNCED" = "true" ]; then args+=(--include-bounced); fi
+          node scripts/backfill-contacts.mjs "${args[@]}"
