@@ -7,6 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#F9F9F8" />
     <title>Oreo Design – UI Library for AI Agents</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3GWSH5BEBE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      // send_page_view is off because this is an SPA: GoogleAnalytics.jsx sends
+      // every page_view, including the first, on each route change.
+      gtag('config', 'G-3GWSH5BEBE', { send_page_view: false });
+    </script>
   </head>
   <body>
     <div id="root"></div>

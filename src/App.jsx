@@ -5,10 +5,12 @@ import Blocks from './pages/Blocks'
 import Icons from './pages/Icons'
 import Illustrations from './pages/Illustrations'
 import ComingSoon from './pages/ComingSoon'
+import GoogleAnalytics from './components/GoogleAnalytics'
 
 function App() {
   return (
     <BrowserRouter>
+      <GoogleAnalytics />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
