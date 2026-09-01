@@ -6,8 +6,8 @@
       "permanent": false
     },
     {
-      "source": "/voxel-icon/:path*",
-      "destination": "https://voxel-icon.vercel.app/:path*",
+      "source": "/voxel-icon/:path(.*)",
+      "destination": "https://voxel-icon.vercel.app/:path",
       "permanent": false
     }
   ],
@@ -17,8 +17,12 @@
       "destination": "https://doodle-icons.vercel.app/doodle-icons"
     },
     {
-      "source": "/doodle-icons/:path*",
-      "destination": "https://doodle-icons.vercel.app/doodle-icons/:path*"
+      "source": "/doodle-icons/",
+      "destination": "https://doodle-icons.vercel.app/doodle-icons"
+    },
+    {
+      "source": "/doodle-icons/:path(.*)",
+      "destination": "https://doodle-icons.vercel.app/doodle-icons/:path"
     },
     {
       "source": "/(.*)",
