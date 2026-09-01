@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/doodle-icons", "destination": "https://doodle-icons.vercel.app/doodle-icons" },
+    { "source": "/doodle-icons/:path*", "destination": "https://doodle-icons.vercel.app/doodle-icons/:path*" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
