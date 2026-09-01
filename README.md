@@ -14,3 +14,34 @@ The React Compiler is not enabled on this template because of its impact on dev 
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+## Email signups
+
+`POST /api/subscribe` adds the address to the Resend contact list and then
+sends the welcome email. Contact creation failures are logged but never block
+the email.
+
+Environment variables:
+
+- `RESEND_API_KEY` — required.
+- `RESEND_AUDIENCE_ID` — optional. Set it only if your Resend account scopes
+  contacts under an audience (`/audiences/{id}/contacts`) instead of the
+  top-level `/contacts` list.
+
+### Backfilling older signups
+
+Signups made before contact creation existed only received an email. To import
+them into the contact list:
+
+```bash
+RESEND_API_KEY=re_xxx node scripts/backfill-contacts.mjs --dry-run   # preview
+RESEND_API_KEY=re_xxx node scripts/backfill-contacts.mjs             # import
+```
+
+The script pages through the Resend email log, keeps recipients of the
+"Welcome to Oreo Design" emails (skipping bounces and complaints), skips
+anyone already on the list, and creates the rest. It is safe to re-run.
+
+Pass `--file emails.csv` to import from an exported list instead of the API,
+`--subject ""` to include every sent email, or `--include-bounced` to import
+bounced addresses too.

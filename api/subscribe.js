@@ -1,3 +1,5 @@
+import { createContact } from './_contacts.js'
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
@@ -11,6 +13,17 @@ export default async function handler(req, res) {
   const apiKey = process.env.RESEND_API_KEY
   if (!apiKey) {
     return res.status(500).json({ error: 'API key not configured' })
+  }
+
+  // Add to the contact list first, but never let it block the welcome email.
+  const contact = await createContact({
+    apiKey,
+    audienceId: process.env.RESEND_AUDIENCE_ID,
+    email,
+  }).catch((err) => ({ ok: false, message: err.message }))
+
+  if (!contact.ok) {
+    console.error('Failed to add contact:', contact.message)
   }
 
   try {
@@ -40,7 +53,7 @@ export default async function handler(req, res) {
     }
 
     const data = await response.json()
-    return res.status(200).json({ success: true, id: data.id })
+    return res.status(200).json({ success: true, id: data.id, contact: contact.ok })
   } catch {
     return res.status(500).json({ error: 'Failed to send email' })
   }
