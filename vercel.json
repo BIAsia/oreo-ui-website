@@ -9,21 +9,19 @@
       "source": "/voxel-icon/:path(.*)",
       "destination": "https://voxel-icon.vercel.app/:path",
       "permanent": false
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/doodle-icons",
-      "destination": "https://doodle-icons.vercel.app/doodle-icons"
     },
     {
-      "source": "/doodle-icons/",
-      "destination": "https://doodle-icons.vercel.app/doodle-icons"
+      "source": "/doodle-icons",
+      "destination": "https://doodle.oreoui.com/",
+      "permanent": true
     },
     {
       "source": "/doodle-icons/:path(.*)",
-      "destination": "https://doodle-icons.vercel.app/doodle-icons/:path"
-    },
+      "destination": "https://doodle.oreoui.com/:path",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
