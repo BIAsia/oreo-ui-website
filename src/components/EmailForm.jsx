@@ -1,43 +1,35 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import styles from './EmailForm.module.css'
 
-// Maps the API's `status` to the button state, so the label reports what actually happened.
-const RESULT_STATUS = {
-  subscribed: 'subscribed',
-  already_subscribed: 'already',
-  previously_unsubscribed: 'unsubscribed',
+// The API's `status` says what actually happened; the line under the form reports it.
+const RESULT_MESSAGE = {
+  subscribed: "Subscribed! We'll let you know when we launch.",
+  already_subscribed: "You're already subscribed.",
+  previously_unsubscribed: 'This email unsubscribed earlier.',
 }
-
-const BUTTON_TEXT = {
-  idle: 'Get Access',
-  sending: 'Sending...',
-  subscribed: 'Subscribed!',
-  already: 'Already subscribed',
-  unsubscribed: 'Previously unsubscribed',
-  error: 'Failed',
-}
+const ERROR_MESSAGE = 'Something went wrong. Please try again.'
+// The server is stricter than the browser's email check (e.g. it rejects "me@gmail").
+const INVALID_MESSAGE = 'Please enter a valid email address.'
 
 export default function EmailForm() {
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState('idle') // idle | sending | subscribed | already | unsubscribed | error
-  const resetTimer = useRef(null)
+  const [sending, setSending] = useState(false)
+  const [message, setMessage] = useState(null) // { text, error }
+  const inputRef = useRef(null)
+  const messageId = useId()
 
-  useEffect(() => () => clearTimeout(resetTimer.current), [])
-
-  // Shows a result for a moment, then returns to the idle label. A newer
-  // submit cancels the pending reset so it can't cut that submit short.
-  const showResult = (result) => {
-    setStatus(result)
-    clearTimeout(resetTimer.current)
-    resetTimer.current = setTimeout(() => setStatus('idle'), 2500)
-  }
+  // Disabling the input while sending drops focus; give it back after an error
+  // so the address can be fixed straight away.
+  useEffect(() => {
+    if (message?.error) inputRef.current?.focus()
+  }, [message])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!email || status === 'sending') return
+    if (!email || sending) return
 
-    clearTimeout(resetTimer.current)
-    setStatus('sending')
+    setSending(true)
+    setMessage(null)
     try {
       const res = await fetch('/api/subscribe', {
         method: 'POST',
@@ -45,36 +37,46 @@ export default function EmailForm() {
         body: JSON.stringify({ email }),
       })
 
+      if (res.status === 400) {
+        setMessage({ text: INVALID_MESSAGE, error: true })
+        return
+      }
       if (!res.ok) throw new Error()
       const data = await res.json().catch(() => null)
 
       setEmail('')
-      showResult(RESULT_STATUS[data?.status] ?? 'subscribed')
+      setMessage({ text: RESULT_MESSAGE[data?.status] ?? RESULT_MESSAGE.subscribed, error: false })
     } catch {
-      showResult('error')
+      setMessage({ text: ERROR_MESSAGE, error: true })
+    } finally {
+      setSending(false)
     }
   }
-
-  const isResult = status !== 'idle' && status !== 'sending'
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <input
+        ref={inputRef}
         type="email"
         placeholder="Your email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => {
+          setEmail(e.target.value)
+          // Typing a new address clears the previous result.
+          if (message) setMessage(null)
+        }}
         required
-        disabled={status === 'sending'}
+        disabled={sending}
+        aria-describedby={messageId}
+        aria-invalid={message?.error || undefined}
         className={styles.input}
       />
-      <button type="submit" disabled={status === 'sending'} className={styles.btn}>
-        {BUTTON_TEXT[status]}
+      <button type="submit" disabled={sending} className={styles.btn}>
+        Get Access
       </button>
-      {/* Announces the result to screen readers; the button label changes silently. */}
-      <span role="status" className={styles.srOnly}>
-        {isResult ? BUTTON_TEXT[status] : ''}
-      </span>
+      <p id={messageId} role="status" className={message?.error ? `${styles.message} ${styles.error}` : styles.message}>
+        {sending ? 'Sending...' : message?.text}
+      </p>
     </form>
   )
 }
