@@ -25,8 +25,10 @@ const WELCOME_HTML = [
   '</div>',
 ].join('')
 
-// Saves the subscriber. Returns "created", "existing", "unavailable" (Resend is
-// down or rate limited) or "misconfigured" (bad key scope, segment id…).
+// Saves the subscriber. Returns "created", "existing", "unsubscribed" (on the
+// list but opted out), "unknown" (couldn't look the address up), "unavailable"
+// (new address, but Resend failed to store it) or "misconfigured" (bad key
+// scope, segment id…).
 // An existing contact's subscription status is left alone: anyone can post any
 // address, so a signup must never undo someone's unsubscribe.
 async function saveContact(key, email, segmentId) {
@@ -36,10 +38,15 @@ async function saveContact(key, email, segmentId) {
       const added = await addContactToSegment(key, email, segmentId)
       if (!added.ok) console.error('[subscribe] segment add failed', added.status, added.data?.message)
     }
-    return 'existing'
+    return found.contact.unsubscribed ? 'unsubscribed' : 'existing'
   }
 
-  const res = found.error ?? (await createContact(key, email, segmentId))
+  if (found.error) {
+    console.error('[subscribe] contact lookup failed', found.error.status, found.error.data?.message)
+    return isTransient(found.error.status) ? 'unknown' : 'misconfigured'
+  }
+
+  const res = await createContact(key, email, segmentId)
   if (res.ok) return 'created'
   console.error('[subscribe] contact not saved', res.status, res.data?.message)
   return isTransient(res.status) ? 'unavailable' : 'misconfigured'
@@ -63,12 +70,21 @@ export default async function handler(req, res) {
   const saved = await saveContact(apiKey, email, process.env.RESEND_SEGMENT_ID)
 
   // People who are already on the list don't get a second welcome email.
+  // `status` tells the form what actually happened.
   if (saved === 'existing') {
-    return res.status(200).json({ success: true })
+    return res.status(200).json({ success: true, status: 'already_subscribed' })
+  }
+  if (saved === 'unsubscribed') {
+    return res.status(200).json({ success: true, status: 'previously_unsubscribed' })
   }
   // Fail visibly so a wrong key or segment is noticed on the first signup.
   if (saved === 'misconfigured') {
     return res.status(500).json({ error: 'Failed to subscribe' })
+  }
+  // Without the lookup we can't tell a new address from an existing or opted-out
+  // one, so send nothing and let the visitor retry.
+  if (saved === 'unknown') {
+    return res.status(502).json({ error: 'Failed to subscribe' })
   }
 
   const sent = await resendRequest(apiKey, '/emails', {
@@ -86,13 +102,13 @@ export default async function handler(req, res) {
 
   // 409: the same welcome email is already being sent.
   if (sent.ok || sent.status === 409) {
-    return res.status(200).json({ success: true })
+    return res.status(200).json({ success: true, status: 'subscribed' })
   }
   console.error('[subscribe] welcome email failed', sent.status, sent.data?.message)
 
   // Once the contact is stored the signup has succeeded, welcome email or not.
-  // If Resend was unavailable for both, nothing was kept, so the visitor should retry.
+  // If neither the contact nor the email went through, nothing was kept, so the visitor should retry.
   return saved === 'created'
-    ? res.status(200).json({ success: true })
+    ? res.status(200).json({ success: true, status: 'subscribed' })
     : res.status(502).json({ error: 'Failed to subscribe' })
 }

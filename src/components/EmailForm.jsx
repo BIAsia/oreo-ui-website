@@ -1,14 +1,42 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './EmailForm.module.css'
+
+// Maps the API's `status` to the button state, so the label reports what actually happened.
+const RESULT_STATUS = {
+  subscribed: 'subscribed',
+  already_subscribed: 'already',
+  previously_unsubscribed: 'unsubscribed',
+}
+
+const BUTTON_TEXT = {
+  idle: 'Get Access',
+  sending: 'Sending...',
+  subscribed: 'Subscribed!',
+  already: 'Already subscribed',
+  unsubscribed: 'Previously unsubscribed',
+  error: 'Failed',
+}
 
 export default function EmailForm() {
   const [email, setEmail] = useState('')
-  const [status, setStatus] = useState('idle') // idle | sending | sent | error
+  const [status, setStatus] = useState('idle') // idle | sending | subscribed | already | unsubscribed | error
+  const resetTimer = useRef(null)
+
+  useEffect(() => () => clearTimeout(resetTimer.current), [])
+
+  // Shows a result for a moment, then returns to the idle label. A newer
+  // submit cancels the pending reset so it can't cut that submit short.
+  const showResult = (result) => {
+    setStatus(result)
+    clearTimeout(resetTimer.current)
+    resetTimer.current = setTimeout(() => setStatus('idle'), 2500)
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!email || status === 'sending') return
 
+    clearTimeout(resetTimer.current)
     setStatus('sending')
     try {
       const res = await fetch('/api/subscribe', {
@@ -18,22 +46,16 @@ export default function EmailForm() {
       })
 
       if (!res.ok) throw new Error()
+      const data = await res.json().catch(() => null)
 
-      setStatus('sent')
       setEmail('')
-      setTimeout(() => setStatus('idle'), 2500)
+      showResult(RESULT_STATUS[data?.status] ?? 'subscribed')
     } catch {
-      setStatus('error')
-      setTimeout(() => setStatus('idle'), 2500)
+      showResult('error')
     }
   }
 
-  const btnText = {
-    idle: 'Get Access',
-    sending: 'Sending...',
-    sent: 'Sent!',
-    error: 'Failed',
-  }
+  const isResult = status !== 'idle' && status !== 'sending'
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -47,8 +69,12 @@ export default function EmailForm() {
         className={styles.input}
       />
       <button type="submit" disabled={status === 'sending'} className={styles.btn}>
-        {btnText[status]}
+        {BUTTON_TEXT[status]}
       </button>
+      {/* Announces the result to screen readers; the button label changes silently. */}
+      <span role="status" className={styles.srOnly}>
+        {isResult ? BUTTON_TEXT[status] : ''}
+      </span>
     </form>
   )
 }
