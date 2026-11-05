@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/subscribe.js": {
+      "maxDuration": 60
+    }
+  },
   "redirects": [
     {
       "source": "/voxel-icon",
