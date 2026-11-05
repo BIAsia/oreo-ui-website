@@ -36,7 +36,8 @@ export async function resendRequest(key, path, { method = 'GET', body, headers }
           ...headers,
         },
         body: body === undefined ? undefined : JSON.stringify(body),
-        signal: AbortSignal.timeout(10_000),
+        // Short enough that three attempts at each step fit in the function's maxDuration.
+        signal: AbortSignal.timeout(5_000),
       })
       const data = await response.json().catch(() => ({}))
       res = { ok: response.ok, status: response.status, data, retryAfter: response.headers?.get?.('retry-after') }
