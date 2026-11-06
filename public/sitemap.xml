@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Keep in sync with the routes in src/App.jsx. "Coming soon" pages
+     (/components, /design-lab) stay out until they have real content. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://oreoui.com/</loc></url>
+  <url><loc>https://oreoui.com/blocks</loc></url>
+  <url><loc>https://oreoui.com/illustrations</loc></url>
+  <url><loc>https://oreoui.com/icons</loc></url>
+  <url><loc>https://oreoui.com/about</loc></url>
+</urlset>
