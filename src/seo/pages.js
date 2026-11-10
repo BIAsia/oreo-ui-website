@@ -2,7 +2,8 @@
  * Single source of truth for the site's routes and their page metadata.
  *
  * Consumed by:
- *  - src/App.jsx            renders one <Route> per entry
+ *  - src/App.jsx            renders one <Route> per entry and says what each
+ *                           path renders
  *  - src/seo/RouteMeta.jsx  keeps <head> in sync while navigating in the SPA
  *  - plugins/vite-plugin-seo.js  bakes the same tags into the built HTML and
  *                                generates sitemap.xml at build time
@@ -14,41 +15,37 @@
 
 export const SITE_URL = 'https://oreoui.com'
 export const SITE_NAME = 'Oreo Design'
+// One link-preview image for the whole site. A per-page image would have to
+// carry its own og:image:width/height, which headTagsFor hardcodes below.
 export const DEFAULT_OG_IMAGE = '/og-default.png'
 
 export const pages = [
   {
     path: '/',
-    component: 'Home',
     title: 'Oreo Design – UI Library for AI Agents',
     description:
       'Oreo is a UI library for building AI agent products — 10,000+ components and variants, 900+ styles and variables, and 420+ page templates. Ship 5x faster.',
   },
   {
     path: '/blocks',
-    component: 'Blocks',
     title: 'Blocks for Agents – Oreo Design',
     description:
       '20+ ready-made blocks for AI products — landing pages, application shells and canvas layouts, in multiple styles and variants. Coming soon from Oreo Design.',
   },
   {
     path: '/illustrations',
-    component: 'Illustrations',
     title: 'Illustrations for Agents – Oreo Design',
     description:
       '50+ illustrations for the moments in an AI product — onboarding, empty states, notices, identity checks and task completion. Coming soon from Oreo Design.',
   },
   {
     path: '/icons',
-    component: 'Icons',
     title: 'Icons for Agents – Oreo Design',
     description:
       '1,700+ icons drawn for AI agent interfaces in one consistent style, covering tools, models, files and agent states. Coming soon from Oreo Design.',
   },
   {
     path: '/components',
-    component: 'ComingSoon',
-    componentProps: { title: 'Components for Agents' },
     title: 'Components for Agents – Oreo Design',
     description:
       '10,000+ components and variants for AI agent interfaces: prompt composers, tool bars, task planners, thinking states and more. Coming soon from Oreo Design.',
@@ -58,8 +55,6 @@ export const pages = [
   },
   {
     path: '/design-lab',
-    component: 'ComingSoon',
-    componentProps: { title: 'Design Lab' },
     title: 'Design Lab – Oreo Design',
     description:
       'Design Lab is where the Oreo team explores new patterns and interactions for AI product interfaces. Coming soon from Oreo Design.',
@@ -67,7 +62,6 @@ export const pages = [
   },
   {
     path: '/about',
-    component: 'About',
     title: 'About – Oreo Design',
     description:
       'Oreo is built by product designers, design engineers and creatives from design system teams at TikTok, Meta, Tencent and frog — with a focus on craft.',

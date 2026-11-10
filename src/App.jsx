@@ -1,4 +1,3 @@
-import { createElement } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -11,16 +10,18 @@ import GoogleAnalytics from './components/GoogleAnalytics'
 import RouteMeta from './seo/RouteMeta'
 import { pages } from './seo/pages'
 
-// Routes come from src/seo/pages.js so that the pages, their metadata, the
-// prerendered HTML and sitemap.xml can never drift apart.
-const components = { Home, About, Blocks, Icons, Illustrations, ComingSoon }
-
-const missing = pages.filter((page) => !components[page.component])
-if (missing.length) {
-  throw new Error(
-    `src/seo/pages.js names components that src/App.jsx does not import: ` +
-      missing.map((page) => `${page.path} → ${page.component}`).join(', '),
-  )
+// The route list lives in src/seo/pages.js, so the pages, their metadata, the
+// prerendered HTML and sitemap.xml can't drift apart. This maps each of those
+// paths to what it renders; a path with nothing here falls through to the
+// not-found page rather than taking the whole app down.
+const elements = {
+  '/': <Home />,
+  '/blocks': <Blocks />,
+  '/illustrations': <Illustrations />,
+  '/icons': <Icons />,
+  '/components': <ComingSoon title="Components for Agents" />,
+  '/design-lab': <ComingSoon title="Design Lab" />,
+  '/about': <About />,
 }
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
           <Route
             key={page.path}
             path={page.path}
-            element={createElement(components[page.component], page.componentProps)}
+            element={elements[page.path] ?? <NotFound />}
           />
         ))}
         <Route path="*" element={<NotFound />} />
