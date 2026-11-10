@@ -1,9 +1,14 @@
-import { useLayoutEffect } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import { findPage, headTagsFor } from './pages'
 
-function upsertMeta({ name, property, content }) {
-  const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`
+function selectorFor({ name, property }) {
+  return name ? `meta[name="${name}"]` : `meta[property="${property}"]`
+}
+
+function upsertMeta(tag) {
+  const { name, property, content } = tag
+  const selector = selectorFor(tag)
   let el = document.head.querySelector(selector)
   if (!el) {
     el = document.createElement('meta')
@@ -37,18 +42,22 @@ function upsertCanonical(href) {
  */
 export default function RouteMeta() {
   const { pathname } = useLocation()
+  // Selectors written on the previous route, so a tag only some pages carry
+  // (robots, today) is removed again rather than left behind.
+  const written = useRef(null)
 
   useLayoutEffect(() => {
     const tags = headTagsFor(findPage(pathname))
+    const selectors = tags.meta.map(selectorFor)
 
     document.title = tags.title
     tags.meta.forEach(upsertMeta)
     upsertCanonical(tags.canonical)
 
-    // A page that is not noindex must not inherit the 404 page's robots tag.
-    if (!tags.meta.some((tag) => tag.name === 'robots')) {
-      document.head.querySelector('meta[name="robots"]')?.remove()
-    }
+    written.current
+      ?.filter((selector) => !selectors.includes(selector))
+      .forEach((selector) => document.head.querySelector(selector)?.remove())
+    written.current = selectors
   }, [pathname])
 
   return null
