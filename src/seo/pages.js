@@ -75,8 +75,6 @@ export const notFoundPage = {
   description:
     "This page doesn't exist. Head back to oreoui.com to explore the Oreo UI library for AI agents.",
   noindex: true,
-  // Nobody shares /404 on purpose, so a link that unfurls points home.
-  ogUrl: SITE_URL + '/',
 }
 
 /** The pages search engines should know about: everything not held back. */
@@ -110,7 +108,7 @@ export function headTagsFor(page) {
       { property: 'og:site_name', content: SITE_NAME },
       { property: 'og:title', content: page.title },
       { property: 'og:description', content: page.description },
-      { property: 'og:url', content: page.ogUrl ?? url },
+      { property: 'og:url', content: url },
       { property: 'og:image', content: image },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
