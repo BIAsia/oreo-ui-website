@@ -23,7 +23,6 @@
   justify-content: center;
   gap: 24px;
   z-index: 2;
-  padding: 0 20px;
 }
 
 .titleGroup {
@@ -73,6 +72,12 @@
   border-color: rgba(0, 0, 0, 0.6);
 }
 
+.homeLink:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
 /* ── Responsive ──────────────────── */
 @media (max-width: 768px) {
   .hero {
@@ -80,14 +85,14 @@
     margin-top: 60px;
   }
 
-  .title {
-    font-size: 40px;
-    line-height: 50px;
+  .heroContent {
+    padding: 0 20px;
   }
 
+  .title,
   .subtitle {
-    font-size: 32px;
-    line-height: 42px;
+    font-size: 36px;
+    line-height: 44px;
   }
 }
 
@@ -96,13 +101,9 @@
     height: 300px;
   }
 
-  .title {
-    font-size: 32px;
-    line-height: 40px;
-  }
-
+  .title,
   .subtitle {
-    font-size: 26px;
-    line-height: 34px;
+    font-size: 28px;
+    line-height: 36px;
   }
 }

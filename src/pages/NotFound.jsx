@@ -22,8 +22,8 @@ export default function NotFound() {
         <div className={styles.heroContent}>
           <OreoIcon size={48} />
           <div className={styles.titleGroup}>
-            <h1 className={styles.title}>404</h1>
-            <p className={styles.subtitle}>Page not found</p>
+            <h1 className={styles.title}>Page not found</h1>
+            <p className={styles.subtitle}>404</p>
           </div>
           <Link to="/" className={styles.homeLink}>Back to home</Link>
         </div>
