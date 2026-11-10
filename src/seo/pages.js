@@ -7,8 +7,9 @@
  *  - plugins/vite-plugin-seo.js  bakes the same tags into the built HTML and
  *                                generates sitemap.xml at build time
  *
- * Adding a route here is all that's needed: it gets a page, metadata, a
- * prerendered HTML file and (unless `sitemap: false`) a sitemap entry.
+ * Adding a route here gets it a page, metadata, a prerendered HTML file and,
+ * unless it is `noindex`, a sitemap entry. Its nav link, if it needs one, is
+ * still added separately in src/components/Navbar.jsx.
  */
 
 export const SITE_URL = 'https://oreoui.com'
@@ -22,7 +23,6 @@ export const pages = [
     title: 'Oreo Design – UI Library for AI Agents',
     description:
       'Oreo is a UI library for building AI agent products — 10,000+ components and variants, 900+ styles and variables, and 420+ page templates. Ship 5x faster.',
-    sitemap: true,
   },
   {
     path: '/blocks',
@@ -30,7 +30,6 @@ export const pages = [
     title: 'Blocks for Agents – Oreo Design',
     description:
       '20+ ready-made blocks for AI products — landing pages, application shells and canvas layouts, in multiple styles and variants. Coming soon from Oreo Design.',
-    sitemap: true,
   },
   {
     path: '/illustrations',
@@ -38,7 +37,6 @@ export const pages = [
     title: 'Illustrations for Agents – Oreo Design',
     description:
       '50+ illustrations for the moments in an AI product — onboarding, empty states, notices, identity checks and task completion. Coming soon from Oreo Design.',
-    sitemap: true,
   },
   {
     path: '/icons',
@@ -46,7 +44,6 @@ export const pages = [
     title: 'Icons for Agents – Oreo Design',
     description:
       '1,700+ icons drawn for AI agent interfaces in one consistent style, covering tools, models, files and agent states. Coming soon from Oreo Design.',
-    sitemap: true,
   },
   {
     path: '/components',
@@ -55,8 +52,9 @@ export const pages = [
     title: 'Components for Agents – Oreo Design',
     description:
       '10,000+ components and variants for AI agent interfaces: prompt composers, tool bars, task planners, thinking states and more. Coming soon from Oreo Design.',
-    // Kept out of the sitemap until the page has real content.
-    sitemap: false,
+    // A placeholder: kept out of search and out of the sitemap until it has
+    // real content. Drop this line once the page is worth landing on.
+    noindex: true,
   },
   {
     path: '/design-lab',
@@ -65,7 +63,7 @@ export const pages = [
     title: 'Design Lab – Oreo Design',
     description:
       'Design Lab is where the Oreo team explores new patterns and interactions for AI product interfaces. Coming soon from Oreo Design.',
-    sitemap: false,
+    noindex: true,
   },
   {
     path: '/about',
@@ -73,20 +71,20 @@ export const pages = [
     title: 'About – Oreo Design',
     description:
       'Oreo is built by product designers, design engineers and creatives from design system teams at TikTok, Meta, Tencent and frog — with a focus on craft.',
-    sitemap: true,
   },
 ]
 
 /** Metadata for anything that does not match a route above. */
 export const notFoundPage = {
   path: '/404',
-  component: 'NotFound',
   title: 'Page not found – Oreo Design',
   description:
     "This page doesn't exist. Head back to oreoui.com to explore the Oreo UI library for AI agents.",
   noindex: true,
-  sitemap: false,
 }
+
+/** The pages search engines should know about: everything not held back. */
+export const indexablePages = pages.filter((page) => !page.noindex)
 
 export function findPage(pathname) {
   // Treat /blocks and /blocks/ as the same page.
@@ -100,8 +98,11 @@ export function findPage(pathname) {
  * build-time HTML generator can render them from the same description.
  */
 export function headTagsFor(page) {
-  const canonical = page.noindex ? null : SITE_URL + (page.path === '/' ? '/' : page.path)
-  const image = SITE_URL + (page.ogImage ?? DEFAULT_OG_IMAGE)
+  const url = SITE_URL + (page.path === '/' ? '/' : page.path)
+  // A page held back from search gets no canonical, but still names itself in
+  // og:url so a shared link unfurls as the page it actually is.
+  const canonical = page.noindex ? null : url
+  const image = SITE_URL + DEFAULT_OG_IMAGE
 
   return {
     title: page.title,
@@ -113,7 +114,7 @@ export function headTagsFor(page) {
       { property: 'og:site_name', content: SITE_NAME },
       { property: 'og:title', content: page.title },
       { property: 'og:description', content: page.description },
-      { property: 'og:url', content: canonical ?? SITE_URL + '/' },
+      { property: 'og:url', content: url },
       { property: 'og:image', content: image },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
