@@ -15,6 +15,14 @@ import { pages } from './seo/pages'
 // prerendered HTML and sitemap.xml can never drift apart.
 const components = { Home, About, Blocks, Icons, Illustrations, ComingSoon }
 
+const missing = pages.filter((page) => !components[page.component])
+if (missing.length) {
+  throw new Error(
+    `src/seo/pages.js names components that src/App.jsx does not import: ` +
+      missing.map((page) => `${page.path} → ${page.component}`).join(', '),
+  )
+}
+
 function App() {
   return (
     <BrowserRouter>
