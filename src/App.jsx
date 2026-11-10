@@ -6,6 +6,7 @@ import Blocks from './pages/Blocks'
 import Icons from './pages/Icons'
 import Illustrations from './pages/Illustrations'
 import ComingSoon from './pages/ComingSoon'
+import NotFound from './pages/NotFound'
 import GoogleAnalytics from './components/GoogleAnalytics'
 import RouteMeta from './seo/RouteMeta'
 import { pages } from './seo/pages'
@@ -27,6 +28,7 @@ function App() {
             element={createElement(components[page.component], page.componentProps)}
           />
         ))}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   )
