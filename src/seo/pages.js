@@ -81,9 +81,11 @@ export const notFoundPage = {
 export const indexablePages = pages.filter((page) => !page.noindex)
 
 export function findPage(pathname) {
-  // Treat /blocks and /blocks/ as the same page.
-  const normalized =
+  // Treat /blocks, /blocks/ and /Blocks as the same page: the router matches
+  // paths case-insensitively, so the head has to agree with what it renders.
+  const trimmed =
     pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname
+  const normalized = trimmed.toLowerCase()
   return pages.find((page) => page.path === normalized) ?? notFoundPage
 }
 
