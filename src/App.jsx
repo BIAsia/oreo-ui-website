@@ -10,18 +10,32 @@ import GoogleAnalytics from './components/GoogleAnalytics'
 import RouteMeta from './seo/RouteMeta'
 import { pages } from './seo/pages'
 
-// The route list lives in src/seo/pages.js, so the pages, their metadata, the
-// prerendered HTML and sitemap.xml can't drift apart. This maps each of those
-// paths to what it renders; a path with nothing here falls through to the
-// not-found page rather than taking the whole app down.
+// The route list lives in src/seo/pages.js, which also drives the prerendered
+// HTML and sitemap.xml. This says what each of those paths renders; a path
+// with nothing here falls through to the not-found page rather than taking
+// the whole app down — so development says loudly when one is missing.
+// The two ComingSoon entries are keyed so that moving between them remounts
+// the page instead of reusing its form state.
 const elements = {
   '/': <Home />,
   '/blocks': <Blocks />,
   '/illustrations': <Illustrations />,
   '/icons': <Icons />,
-  '/components': <ComingSoon title="Components for Agents" />,
-  '/design-lab': <ComingSoon title="Design Lab" />,
+  '/components': <ComingSoon key="/components" title="Components for Agents" />,
+  '/design-lab': <ComingSoon key="/design-lab" title="Design Lab" />,
   '/about': <About />,
+}
+
+if (import.meta.env.DEV) {
+  const unmapped = pages.filter((page) => !elements[page.path])
+  if (unmapped.length) {
+    console.error(
+      `[routes] src/seo/pages.js lists ${unmapped
+        .map((page) => page.path)
+        .join(', ')} with no entry in the elements map above, so they would be ` +
+        `prerendered and put in sitemap.xml while rendering the not-found page.`,
+    )
+  }
 }
 
 function App() {

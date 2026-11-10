@@ -8,9 +8,10 @@
  *  - plugins/vite-plugin-seo.js  bakes the same tags into the built HTML and
  *                                generates sitemap.xml at build time
  *
- * Adding a route here gets it a page, metadata, a prerendered HTML file and,
- * unless it is `noindex`, a sitemap entry. Its nav link, if it needs one, is
- * still added separately in src/components/Navbar.jsx.
+ * Adding a route here gets it metadata, a prerendered HTML file and, unless it
+ * is `noindex`, a sitemap entry. Two things still have to be added by hand:
+ * what the path renders (the `elements` map in src/App.jsx) and its nav link,
+ * if it needs one (src/components/Navbar.jsx).
  */
 
 export const SITE_URL = 'https://oreoui.com'
