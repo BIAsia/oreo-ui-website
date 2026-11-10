@@ -1,6 +1,6 @@
-import { writeFile, readFile } from 'node:fs/promises'
+import { mkdir, writeFile, readFile } from 'node:fs/promises'
 import path from 'node:path'
-import { pages, notFoundPage, headTagsFor, SITE_URL } from '../src/seo/pages.js'
+import { pages, indexablePages, notFoundPage, headTagsFor, SITE_URL } from '../src/seo/pages.js'
 
 const START = '<!-- seo:start -->'
 const END = '<!-- seo:end -->'
@@ -45,8 +45,7 @@ function htmlForPage(template, page) {
 }
 
 function renderSitemap() {
-  const urls = pages
-    .filter((page) => page.sitemap)
+  const urls = indexablePages
     .map((page) => `  <url><loc>${SITE_URL}${page.path === '/' ? '/' : page.path}</loc></url>`)
 
   return [
@@ -99,7 +98,9 @@ export default function seoPlugin() {
       const written = []
       for (const page of [...pages, notFoundPage]) {
         const file = page === notFoundPage ? '404.html' : outputFileFor(page.path)
-        await writeFile(path.join(outDir, file), htmlForPage(template, page))
+        const target = path.join(outDir, file)
+        await mkdir(path.dirname(target), { recursive: true })
+        await writeFile(target, htmlForPage(template, page))
         written.push(file)
       }
 
