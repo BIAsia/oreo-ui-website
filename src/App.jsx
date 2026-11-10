@@ -1,3 +1,4 @@
+import { createElement } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
@@ -6,19 +7,26 @@ import Icons from './pages/Icons'
 import Illustrations from './pages/Illustrations'
 import ComingSoon from './pages/ComingSoon'
 import GoogleAnalytics from './components/GoogleAnalytics'
+import RouteMeta from './seo/RouteMeta'
+import { pages } from './seo/pages'
+
+// Routes come from src/seo/pages.js so that the pages, their metadata, the
+// prerendered HTML and sitemap.xml can never drift apart.
+const components = { Home, About, Blocks, Icons, Illustrations, ComingSoon }
 
 function App() {
   return (
     <BrowserRouter>
+      <RouteMeta />
       <GoogleAnalytics />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/blocks" element={<Blocks />} />
-        <Route path="/icons" element={<Icons />} />
-        <Route path="/components" element={<ComingSoon title="Components for Agents" />} />
-        <Route path="/illustrations" element={<Illustrations />} />
-        <Route path="/design-lab" element={<ComingSoon title="Design Lab" />} />
+        {pages.map((page) => (
+          <Route
+            key={page.path}
+            path={page.path}
+            element={createElement(components[page.component], page.componentProps)}
+          />
+        ))}
       </Routes>
     </BrowserRouter>
   )
